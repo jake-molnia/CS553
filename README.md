@@ -1,5 +1,5 @@
 ---
-title: Text-to-Image Gradio Template
+title: CS553
 emoji: 🖼
 colorFrom: purple
 colorTo: red
