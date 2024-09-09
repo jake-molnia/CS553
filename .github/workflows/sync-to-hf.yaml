@@ -81,32 +81,49 @@ jobs:
           EMOJI="❌"
         fi
         
-        curl -H "Content-Type: application/json" -d '{
+        # Prepare the JSON payload
+        PAYLOAD=$(cat <<EOF
+        {
           "embeds": [{
-            "title": "'"$TITLE"'",
-            "description": "'"$DESCRIPTION"'",
-            "color": '"$COLOR"',
+            "title": "$TITLE",
+            "description": "$DESCRIPTION",
+            "color": $COLOR,
             "fields": [
               {
                 "name": "Repository",
-                "value": "'"${{ github.repository }}"'",
+                "value": "${{ github.repository }}",
                 "inline": true
               },
               {
                 "name": "Branch",
-                "value": "'"${{ github.ref_name }}"'",
+                "value": "${{ github.ref_name }}",
                 "inline": true
               },
               {
                 "name": "Triggered by",
-                "value": "'"${{ github.event_name }}"'",
+                "value": "${{ github.event_name }}",
                 "inline": true
               }
             ],
             "footer": {
-              "text": "'"$EMOJI"' Workflow run completed at $(date -u "+%Y-%m-%d %H:%M:%S UTC")"
+              "text": "$EMOJI Workflow run completed at $(date -u "+%Y-%m-%d %H:%M:%S UTC")"
             }
           }],
           "username": "GitHub Actions",
           "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-        }' $DISCORD_WEBHOOK
+        }
+        EOF
+        )
+        
+        # Send the payload and capture the response
+        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -H "Content-Type: application/json" -d "$PAYLOAD" $DISCORD_WEBHOOK)
+        
+        # Check if the request was successful
+        if [ $RESPONSE -ne 204 ]; then
+          echo "Failed to send Discord notification. HTTP response code: $RESPONSE"
+          echo "Payload:"
+          echo "$PAYLOAD"
+          exit 1
+        else
+          echo "Discord notification sent successfully!"
+        fi
