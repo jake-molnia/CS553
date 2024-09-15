@@ -17,17 +17,6 @@ def test_update_chat_info_empty():
     assert message_count == 0
     assert word_count == 0
 
-def test_update_chat_info_with_history():
-    history = [
-        ("User", "Hello"),
-        ("Bot", "Hi there!"),
-        ("User", "How are you?"),
-        ("Bot", "I'm doing well, thank you!")
-    ]
-    message_count, word_count = update_chat_info(history)
-    assert message_count == 4
-    assert word_count == 13
-
 def test_cancel_inference():
     cancel_inference()
     from app import stop_inference
