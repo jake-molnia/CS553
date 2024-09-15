@@ -4,7 +4,7 @@ import torch
 from transformers import pipeline
 
 # Inference client setup
-client = InferenceClient("microsoft/Phi-3.5-mini-instruct")
+client = InferenceClient("meta-llama/Meta-Llama-3-8B-Instruct")
 pipe = pipeline("text-generation", "microsoft/Phi-3.5-mini-instruct", torch_dtype=torch.bfloat16, device_map="auto")
 
 # Global flag to handle cancellation
@@ -14,7 +14,7 @@ def respond(
     message,
     history: list[tuple[str, str]],
     system_message="You are a friendly Chatbot.",
-    max_tokens=512,
+    max_tokens=2048,
     temperature=0.7,
     top_p=0.95,
     use_local_model=False,
