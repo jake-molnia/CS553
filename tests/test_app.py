@@ -1,3 +1,9 @@
+import os
+import sys
+
+# Add the parent directory to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import pytest
 from unittest.mock import Mock, patch
 import gradio as gr
@@ -44,9 +50,8 @@ def test_respond_local_inference(mock_pipeline):
     assert result[-1] == [(message, "Hello world")]
 
 def test_cancel_inference():
-    global stop_inference
-    stop_inference = False
     cancel_inference()
+    from app import stop_inference
     assert stop_inference == True
 
 def test_clear_conversation():
@@ -68,6 +73,7 @@ def test_update_chat_info_empty():
 
 @pytest.mark.parametrize("use_local_model", [True, False])
 def test_respond_cancellation(use_local_model, mock_inference_client, mock_pipeline):
+    from app import stop_inference
     global stop_inference
     stop_inference = False
 
