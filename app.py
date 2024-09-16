@@ -13,7 +13,7 @@ stop_inference = False
 def respond(
     message,
     history: list[tuple[str, str]],
-    system_message="You are a friendly Chatbot.",
+    system_message="You are a friendly Chatbot. Your job is to assist users in emergencies so reply fast but accuratly.",
     max_tokens=2048,
     temperature=0.7,
     top_p=0.95,
@@ -174,8 +174,8 @@ body {
 
 # Define the interface
 with gr.Blocks(css=custom_css) as demo:
-    gr.Markdown("<h1 id='title'>🤖 Advanced AI Chatbot 🚀</h1>")
-    gr.Markdown("Engage in a conversation with our AI chatbot using customizable settings.")
+    gr.Markdown("<h1 id='title'>🤖 EMERGENCY RESPONSE BOT 🚀</h1>")
+    gr.Markdown("Engage in a conversation with our AI chatbot using customizable settings. \n It's a demo bot for a emergency response system. \n NOTE: This bot was made for educational purposes only and should not be used in real emergencies.")
 
     with gr.Row():
         with gr.Column(scale=2):
